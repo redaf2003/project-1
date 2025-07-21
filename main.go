@@ -13,7 +13,16 @@ func main() {
 
 	for i := 1; i <= attempt; i++ {
 		fmt.Printf(" Игра началась! Желаю успехов:Gопытка %d: ведите ваше число ", i)
-		fmt.Scan(&guess)
+		_, err := fmt.Scan(&guess)
+		if err != nil {
+
+			fmt.Println("Ошибка при воде : Ведите конретное число !!!")
+			fmt.Scan()
+			i--
+			continue
+
+		}
+
 		if guess < randomNumber {
 			fmt.Println("Парень ты вел маленькое число ")
 		} else if guess > randomNumber {
