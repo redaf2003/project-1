@@ -12,7 +12,7 @@ func main() {
 	guess, attempt := 0, 10
 
 	for i := 1; i <= attempt; i++ {
-		fmt.Printf(" Игра началась! Желаю успехов:Gопытка %d: ведите ваше число ", i)
+		fmt.Printf(" Игра началась! Желаю успехов:Попытка %d: ведите ваше число ", i)
 		_, err := fmt.Scan(&guess)
 		if err != nil {
 
