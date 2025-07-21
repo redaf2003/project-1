@@ -26,13 +26,13 @@ func main() {
 		if guess < randomNumber {
 			fmt.Println("Парень ты вел маленькое число ")
 		} else if guess > randomNumber {
-			fmt.Println("Парень ты дурак ты вел большое число ты как Егор дебил ")
+			fmt.Println("Парень ты вел большое число ")
 		} else {
 			fmt.Println("Красава ты угадал с числом можешь даже покрутить казик если хочешь ")
 			break
 		}
 		if i == 0 {
-			fmt.Printf("Ты исчерпал все попытки, ты лошара как Егор число было: %d\n", randomNumber)
+			fmt.Printf("Ты исчерпал все попытки, число  было: %d\n", randomNumber)
 		}
 
 	}
