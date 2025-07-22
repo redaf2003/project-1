@@ -6,6 +6,8 @@ import (
 	"time"
 )
 
+var previousGuesses []int
+
 func main() {
 	targetNumber := Numbergeneration(1, 100)
 	maxAttepts := 10
@@ -16,6 +18,8 @@ func Numbergeneration(min, max int) int {
 	return rand.Intn(max-min+1) + min
 }
 func RunGame(targetNumber, maxAttepts int) {
+	previousGuesses = []int{}
+
 	fmt.Printf("Игра началась ❗ Угадай число от 1 до 100. У тебя будет %d попыток.\n", maxAttepts)
 
 	for attemmpt := 1; attemmpt <= maxAttepts; attemmpt++ {
@@ -25,6 +29,7 @@ func RunGame(targetNumber, maxAttepts int) {
 
 		if gues == targetNumber {
 			fmt.Printf("🎉 Поздравляю! Ты угадал число!")
+			showPreviousGuesses()
 			break
 		}
 
@@ -43,6 +48,7 @@ func getPlayerGuess(attempt int) int {
 		fmt.Printf("Попытка %d. Ведите число:", attempt)
 		guess := 0
 		if _, err := fmt.Scan(&guess); err == nil {
+			previousGuesses = append(previousGuesses, guess)
 			return guess
 		}
 		fmt.Println("Ошибка! Пожалуйста, введите целое число.")
@@ -72,4 +78,14 @@ func getDistanceHint(gues, targetNumber int) string {
 	default:
 		return "❄️ Холодно"
 	}
+}
+func showPreviousGuesses() {
+	if len(previousGuesses) == 0 {
+		return
+	}
+	fmt.Print("📌 Ваши попытки: ")
+	for _, g := range previousGuesses {
+		fmt.Printf("%d ", g)
+	}
+	fmt.Println()
 }
