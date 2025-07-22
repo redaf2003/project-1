@@ -84,6 +84,7 @@ func getDistanceHint(gues, targetNumber int) string {
 	}
 }
 
+// Старый код
 //rand.Seed(time.Now().UnixNano())
 //randomNumber := rand.Intn(100) + 1
 //guess, attempt := 0, 10
@@ -114,4 +115,13 @@ func getDistanceHint(gues, targetNumber int) string {
 //
 //	}
 
+//}
+//switch {
+//case gues < targetNumber:
+//	fmt.Println("Твое число слишком маленькое! ")
+//case gues > targetNumber:
+//	fmt.Println("Твое число слишком большое ")
+//default:
+//	fmt.Println("Красава ты победил ")
+//	return
 //}
