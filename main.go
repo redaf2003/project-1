@@ -34,16 +34,6 @@ func RunGame(targetNumber, maxAttepts int) {
 			fmt.Printf("%s Загаданное число меньше.\n", clue)
 		}
 
-		//switch {
-		//case gues < targetNumber:
-		//	fmt.Println("Твое число слишком маленькое! ")
-		//case gues > targetNumber:
-		//	fmt.Println("Твое число слишком большое ")
-		//default:
-		//	fmt.Println("Красава ты победил ")
-		//	return
-		//}
-
 	}
 	fmt.Printf("Попытки закончились. Загаданное число было: %d\n", targetNumber)
 }
