@@ -22,23 +22,16 @@ var (
 	}
 )
 
-//var previousGuesses []int
-
 func main() {
 	rand.Seed(time.Now().UnixNano())
 	diff := selectDifficulty()
 	targetNumber := rand.Intn(diff.Max-diff.Min+1) + diff.Min
-	//(diff.Max-diff.Min+1) + diff.Min
 
 	fmt.Printf("\n🎮 Игра началась! Угадай число от %d до %d. У тебя %d попыток.\n",
 		diff.Min, diff.Max, diff.Attempts)
-	//fmt.Printf("\nИгра началась! Угадай число от %d до %d. У тебя %d попыток.\n",
-	//	diff.Min, diff.Max, diff.Attempts)
 
 	RunGame(targetNumber, diff.Attempts)
-	//targetNumber := Numbergeneration(1, 100)
-	//maxAttepts := 10
-	//RunGame(targetNumber, maxAttepts)
+
 }
 
 func selectDifficulty() Difficulty {
@@ -86,28 +79,6 @@ func RunGame(targetNumber, maxAttempts int) {
 	showPreviousGuesses()
 }
 
-//fmt.Printf("Игра началась ❗ Угадай число от 1 до 100. У тебя будет %d попыток.\n", maxAttepts)
-
-//for attemmpt := 1; attemmpt <= maxAttepts; attemmpt++ {
-
-//	gues := getPlayerGuess(attemmpt)
-//	clue := getDistanceHint(gues, targetNumber)
-
-//	if gues == targetNumber {
-//		fmt.Printf("🎉 Поздравляю! Ты угадал число!")
-//		showPreviousGuesses()
-//		break
-//	}
-
-//	if gues < targetNumber {
-//		fmt.Printf("%s Загаданное число больше.\n", clue)
-//	} else {
-//		fmt.Printf("%s Загаданное число меньше.\n", clue)
-//	}
-
-// }
-// fmt.Printf("Попытки закончились. Загаданное число было: %d\n", targetNumber)
-// }
 func getPlayerInput(attempt, maxAttempts int) int {
 	for {
 		fmt.Printf("\n👉 Попытка %d/%d: Введите число: ", attempt, maxAttempts)
@@ -122,20 +93,6 @@ func getPlayerInput(attempt, maxAttempts int) int {
 		fmt.Scanln(&discard)
 	}
 }
-
-//func getPlayerGuess(attempt int) int {
-//	for {
-//		fmt.Printf("Попытка %d. Ведите число:", attempt)
-//		guess := 0
-//		if _, err := fmt.Scan(&guess); err == nil {
-//			previousGuesses = append(previousGuesses, guess)
-//			return guess
-//		}
-//		fmt.Println("Ошибка! Пожалуйста, введите целое число.")
-//		var discard string
-//		fmt.Scanln(&discard)
-//	}
-//}
 
 func checkGuess(guess, target int) bool {
 	switch {
