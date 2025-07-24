@@ -23,15 +23,41 @@ var (
 )
 
 func main() {
+
 	rand.Seed(time.Now().UnixNano())
-	diff := selectDifficulty()
-	targetNumber := rand.Intn(diff.Max-diff.Min+1) + diff.Min
 
-	fmt.Printf("\n🎮 Игра началась! Угадай число от %d до %d. У тебя %d попыток.\n",
-		diff.Min, diff.Max, diff.Attempts)
+	for {
+		diff := selectDifficulty()
+		targetNumber := rand.Intn(diff.Max-diff.Min+1) + diff.Min
 
-	RunGame(targetNumber, diff.Attempts)
+		fmt.Printf("\n🎮 Игра началась! Угадай число от %d до %d. У тебя %d попыток.\n",
+			diff.Min, diff.Max, diff.Attempts)
 
+		RunGame(targetNumber, diff.Attempts)
+
+		if askForReplay() == false {
+			fmt.Println("\nСпасибо за игру! До свидания!")
+			break
+		}
+	}
+
+}
+
+func askForReplay() bool {
+	for {
+		fmt.Print("\nХотите сыграть ещё раз? (да/нет): ")
+		var answer string
+		fmt.Scan(&answer)
+
+		switch answer {
+		case "да", "д", "yes", "y":
+			return true
+		case "нет", "н", "no", "n":
+			return false
+		default:
+			fmt.Println("Пожалуйста, введите 'да' или 'нет'")
+		}
+	}
 }
 
 func selectDifficulty() Difficulty {
