@@ -6,6 +6,8 @@ import (
 	"math/rand"
 	"os"
 	"time"
+
+	"github.com/fatih/color"
 )
 
 type GameResult struct {
@@ -24,6 +26,13 @@ type Difficulty struct {
 }
 
 var (
+	greenPrint  = color.New(color.FgGreen).PrintfFunc()
+	redPrint    = color.New(color.FgRed).PrintfFunc()
+	yellowPrint = color.New(color.FgYellow).PrintfFunc()
+	cyanPrint   = color.New(color.FgCyan).PrintfFunc()
+)
+
+var (
 	previousGuesses []int
 	difficulties    = map[string]Difficulty{
 		"easy":   {1, 50, 15, "Лёгкий"},
@@ -40,13 +49,13 @@ func main() {
 		diff := selectDifficulty()
 		targetNumber := rand.Intn(diff.Max-diff.Min+1) + diff.Min
 
-		fmt.Printf("\n🎮 Игра началась! Угадай число от %d до %d. У тебя %d попыток.\n",
+		cyanPrint("\n🎮 Игра началась! Угадай число от %d до %d. У тебя %d попыток.\n",
 			diff.Min, diff.Max, diff.Attempts)
 
 		RunGame(targetNumber, diff.Attempts, diff.Name)
 
-		if askForReplay() == false {
-			fmt.Println("\nСпасибо за игру! До свидания!")
+		if !askForReplay() {
+			color.Cyan("\nСпасибо за игру! До свидания!")
 			break
 		}
 	}
@@ -79,7 +88,7 @@ func saveResult(won bool, attempts, target int, difficulty string) {
 
 func askForReplay() bool {
 	for {
-		fmt.Print("\nХотите сыграть ещё раз? (да/нет): ")
+		color.Cyan("\nХотите сыграть ещё раз? (да/нет): ")
 		var answer string
 		fmt.Scan(&answer)
 
@@ -89,14 +98,14 @@ func askForReplay() bool {
 		case "нет", "н", "no", "n":
 			return false
 		default:
-			fmt.Println("Пожалуйста, введите 'да' или 'нет'")
+			redPrint("Пожалуйста, введите 'да' или 'нет'")
 		}
 	}
 }
 
 func selectDifficulty() Difficulty {
 	for {
-		fmt.Print(`
+		cyanPrint(`
 Выберите сложность:
 1. Лёгкий (1-50, 15 попыток)
 2. Средний (1-100, 10 попыток)
@@ -114,7 +123,7 @@ func selectDifficulty() Difficulty {
 		case "3", "hard":
 			return difficulties["hard"]
 		default:
-			fmt.Println("⚠️ Неверный ввод. Попробуйте снова.")
+			redPrint("⚠️ Неверный ввод. Попробуйте снова.")
 		}
 	}
 }
@@ -138,9 +147,12 @@ func RunGame(targetNumber, maxAttempts int, difDifficulty string) bool {
 		}
 	}
 
-	if !won {
-		fmt.Printf("\n😢 Попытки закончились. Загаданное число: %d\n", targetNumber)
+	if won {
+		greenPrint("\n🎉 Поздравляю! Ты угадал число!\n")
+	} else {
+		redPrint("\n😢 Попытки закончились. Загаданное число: %d\n", targetNumber)
 	}
+
 	showPreviousGuesses()
 
 	saveResult(won, usedAttempts, targetNumber, difDifficulty)
@@ -149,14 +161,14 @@ func RunGame(targetNumber, maxAttempts int, difDifficulty string) bool {
 
 func getPlayerInput(attempt, maxAttempts int) int {
 	for {
-		fmt.Printf("\n👉 Попытка %d/%d: Введите число: ", attempt, maxAttempts)
+		yellowPrint("\n👉 Попытка %d/%d: Введите число: ", attempt, maxAttempts)
 		var num int
 		if _, err := fmt.Scan(&num); err == nil {
 			previousGuesses = append(previousGuesses, num)
 			return num
 		}
 
-		fmt.Println("⚠️ Ошибка! Введите целое число.")
+		redPrint("⚠️ Ошибка! Введите целое число.")
 		var discard string
 		fmt.Scanln(&discard)
 	}
