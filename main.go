@@ -1,10 +1,20 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"math/rand"
+	"os"
 	"time"
 )
+
+type GameResult struct {
+	Date        string `json:"date"`
+	Outcome     string `json:"outcome"`
+	Attempts    int    `json:"attempts"`
+	Target      int    `json:"target"`
+	Difficultys string `json:"difficulty"`
+}
 
 type Difficulty struct {
 	Min      int
@@ -33,7 +43,7 @@ func main() {
 		fmt.Printf("\n🎮 Игра началась! Угадай число от %d до %d. У тебя %d попыток.\n",
 			diff.Min, diff.Max, diff.Attempts)
 
-		RunGame(targetNumber, diff.Attempts)
+		RunGame(targetNumber, diff.Attempts, diff.Name)
 
 		if askForReplay() == false {
 			fmt.Println("\nСпасибо за игру! До свидания!")
@@ -41,6 +51,30 @@ func main() {
 		}
 	}
 
+}
+
+func saveResult(won bool, attempts, target int, difficulty string) {
+	result := GameResult{
+		Date:        time.Now().Format("2006-01-02 15:04:05"),
+		Outcome:     "lose",
+		Attempts:    attempts,
+		Target:      target,
+		Difficultys: difficulty,
+	}
+	if won {
+		result.Outcome = "win"
+	}
+
+	var results []GameResult
+	file, err := os.ReadFile("results.json")
+	if err == nil {
+		json.Unmarshal(file, &results)
+	}
+
+	results = append(results, result)
+
+	data, _ := json.MarshalIndent(results, "", "  ")
+	os.WriteFile("results.json", data, 0644)
 }
 
 func askForReplay() bool {
@@ -90,19 +124,27 @@ func Numbergeneration(min, max int) int {
 	return rand.Intn(max-min+1) + min
 }
 
-func RunGame(targetNumber, maxAttempts int) {
+func RunGame(targetNumber, maxAttempts int, difDifficulty string) bool {
 	previousGuesses = []int{}
+	usedAttempts := 0
+	won := false
 
 	for attempt := 1; attempt <= maxAttempts; attempt++ {
 		guess := getPlayerInput(attempt, maxAttempts)
 
 		if checkGuess(guess, targetNumber) {
-			return
+			won = true
+			break
 		}
 	}
 
-	fmt.Printf("\n😢 Попытки закончились. Загаданное число: %d\n", targetNumber)
+	if !won {
+		fmt.Printf("\n😢 Попытки закончились. Загаданное число: %d\n", targetNumber)
+	}
 	showPreviousGuesses()
+
+	saveResult(won, usedAttempts, targetNumber, difDifficulty)
+	return won
 }
 
 func getPlayerInput(attempt, maxAttempts int) int {
