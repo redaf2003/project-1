@@ -54,5 +54,12 @@
     "attempts": 5,
     "target": 14,
     "difficulty": "Лёгкий"
+  },
+  {
+    "date": "2025-07-26 00:55:32",
+    "outcome": "lose",
+    "attempts": 15,
+    "target": 40,
+    "difficulty": "Лёгкий"
   }
 ]
