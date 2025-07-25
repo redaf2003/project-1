@@ -12,5 +12,47 @@
     "attempts": 0,
     "target": 25,
     "difficulty": "Средний"
+  },
+  {
+    "date": "2025-07-25 05:08:12",
+    "outcome": "win",
+    "attempts": 0,
+    "target": 24,
+    "difficulty": "Лёгкий"
+  },
+  {
+    "date": "2025-07-26 00:00:17",
+    "outcome": "lose",
+    "attempts": 0,
+    "target": 12,
+    "difficulty": "Лёгкий"
+  },
+  {
+    "date": "2025-07-26 00:06:21",
+    "outcome": "lose",
+    "attempts": 0,
+    "target": 14,
+    "difficulty": "Лёгкий"
+  },
+  {
+    "date": "2025-07-26 00:21:07",
+    "outcome": "lose",
+    "attempts": 0,
+    "target": 22,
+    "difficulty": "Лёгкий"
+  },
+  {
+    "date": "2025-07-26 00:21:38",
+    "outcome": "win",
+    "attempts": 5,
+    "target": 49,
+    "difficulty": "Лёгкий"
+  },
+  {
+    "date": "2025-07-26 00:51:28",
+    "outcome": "win",
+    "attempts": 5,
+    "target": 14,
+    "difficulty": "Лёгкий"
   }
 ]

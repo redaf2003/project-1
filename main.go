@@ -138,23 +138,22 @@ func RunGame(targetNumber, maxAttempts int, difDifficulty string) bool {
 	usedAttempts := 0
 	won := false
 
-	for attempt := 1; attempt <= maxAttempts; attempt++ {
-		guess := getPlayerInput(attempt, maxAttempts)
+	for attempt := 0; attempt < maxAttempts; attempt++ {
+		usedAttempts = attempt + 1
+		guess := getPlayerInput(usedAttempts, maxAttempts)
 
 		if checkGuess(guess, targetNumber) {
 			won = true
+			greenPrint("\n🎉 Поздравляю! Ты угадал число!\n")
 			break
 		}
 	}
 
-	if won {
-		greenPrint("\n🎉 Поздравляю! Ты угадал число!\n")
-	} else {
-		redPrint("\n😢 Попытки закончились. Загаданное число: %d\n", targetNumber)
+	if !won {
+		redPrint("\n Попытки закончились.Загаданное число: %d\n", targetNumber)
 	}
 
 	showPreviousGuesses()
-
 	saveResult(won, usedAttempts, targetNumber, difDifficulty)
 	return won
 }
@@ -181,8 +180,7 @@ func checkGuess(guess, target int) bool {
 	case guess > target:
 		fmt.Printf("%s Загаданное число меньше.", getDistanceHint(guess, target))
 	default:
-		fmt.Println("\n🎉 Поздравляю! Ты угадал число!")
-		showPreviousGuesses()
+
 		return true
 	}
 
